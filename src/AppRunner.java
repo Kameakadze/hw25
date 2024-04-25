@@ -1,5 +1,6 @@
 import enums.ActionLetter;
 import model.*;
+import payments.CardAcceptor;
 import payments.CoinAcceptor;
 import payments.MoneyPayment;
 import util.UniversalArray;
@@ -11,7 +12,7 @@ public class AppRunner {
 
     private final UniversalArray<Product> products = new UniversalArrayImpl<>();
 
-    private final MoneyPayment acceptor;
+    private MoneyPayment acceptor;
 
     private static boolean isExit = false;
 
@@ -38,7 +39,7 @@ public class AppRunner {
         print("В автомате доступны:");
         showProducts(products);
 
-        print("Монет на сумму: " + acceptor.getAmount());
+        print("Доступная сумму: " + acceptor.getAmount());
 
         UniversalArray<Product> allowProducts = new UniversalArrayImpl<>();
         allowProducts.addAll(getAllowedProducts().toArray());
@@ -86,6 +87,21 @@ public class AppRunner {
     private void showActions(UniversalArray<Product> products) {
         for (int i = 0; i < products.size(); i++) {
             print(String.format(" %s - %s", products.get(i).getActionLetter().getValue(), products.get(i).getName()));
+        }
+    }
+    public void chooseAcceptor() {
+        while (true) {
+            int getAcceptor = CardAcceptor.parseInt("Для пополнения через карту введите -1-, \n" +
+                    "для пополнения монетами введите - 2 -\nВведите как вы хотите расплатиться: ");
+            if (getAcceptor == 1) {
+                acceptor = new CardAcceptor(acceptor.getAmount());
+                break;
+            } else if (getAcceptor == 2) {
+                acceptor = new CoinAcceptor(acceptor.getAmount());
+                break;
+            } else {
+                System.err.println("Неверно выбран способ пополнения.");
+            }
         }
     }
 
