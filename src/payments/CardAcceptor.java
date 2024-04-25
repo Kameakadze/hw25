@@ -30,20 +30,20 @@ public class CardAcceptor implements MoneyPayment {
         while (isRun) {
             try {
                 if (numberOfCard == null) {
-                    String number = tryParseToNumber("Введите номер карты (16 цифр).");
+                    String number = tryParseToNumber("Введите номер карты (16 цифр): ");
                     if (number.length() != 16) {
                         throw new CatchPaymentException("Введено не верное количество символов, повторите еще раз.");
                     }
                     numberOfCard = number;
                 } else if (password == null) {
-                    String onTimePassword = tryParseToNumber("Введите пароль.");
+                    String onTimePassword = tryParseToNumber("Введите пароль: ");
                     if (onTimePassword.length() != 4) {
                         throw new CatchPaymentException("Введен не верный пароль.");
                     }
                     password = onTimePassword;
                 } else {
-                    int sum = parseInt("Введите сумму пополнения. " +
-                            "\nДоступная сумма на балансе карты: " + balance);
+                    int sum = parseInt("Доступная сумма на балансе карты: " + balance +
+                            "\nВведите сумму пополнения: ");
                     if (sum <= balance) {
                         amount += sum;
                         balance -= sum;

@@ -63,10 +63,10 @@ public class AppRunner {
         print(" h - Выйти");
         String action = fromConsole().substring(0, 1);
         if ("a".equalsIgnoreCase(action)) {
-            acceptor.setAmount(acceptor.getAmount() + 10);
-            print("Вы пополнили баланс на 10");
+            chooseAcceptor();
+            acceptor.addMoney();
             return;
-        }else if ("h".equalsIgnoreCase(action)) {
+        } else if ("h".equalsIgnoreCase(action)) {
             isExit = true;
             return;
         }
@@ -89,9 +89,10 @@ public class AppRunner {
             print(String.format(" %s - %s", products.get(i).getActionLetter().getValue(), products.get(i).getName()));
         }
     }
+
     public void chooseAcceptor() {
         while (true) {
-            int getAcceptor = CardAcceptor.parseInt("Для пополнения через карту введите -1-, \n" +
+            int getAcceptor = CardAcceptor.parseInt("Для пополнения через карту введите - 1 -, \n" +
                     "для пополнения монетами введите - 2 -\nВведите как вы хотите расплатиться: ");
             if (getAcceptor == 1) {
                 acceptor = new CardAcceptor(acceptor.getAmount());
@@ -100,7 +101,7 @@ public class AppRunner {
                 acceptor = new CoinAcceptor(acceptor.getAmount());
                 break;
             } else {
-                System.err.println("Неверно выбран способ пополнения.");
+                System.err.println("Вы можете выбрать только 1 либо 2.Попробуйте еще раз!");
             }
         }
     }
