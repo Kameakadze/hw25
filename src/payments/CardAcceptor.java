@@ -26,7 +26,37 @@ public class CardAcceptor implements MoneyPayment {
 
     @Override
     public void addMoney() {
-
+        boolean isRun = true;
+        while (isRun) {
+            try {
+                if (numberOfCard == null) {
+                    String number = tryParseToNumber("Введите номер карты (16 цифр).");
+                    if (number.length() != 16) {
+                        throw new CatchPaymentException("Введено не верное количество символов, повторите еще раз.");
+                    }
+                    numberOfCard = number;
+                } else if (password == null) {
+                    String onTimePassword = tryParseToNumber("Введите пароль.");
+                    if (onTimePassword.length() != 4) {
+                        throw new CatchPaymentException("Введен не верный пароль.");
+                    }
+                    password = onTimePassword;
+                } else {
+                    int sum = parseInt("Введите сумму пополнения. " +
+                            "\nДоступная сумма на балансе карты: " + balance);
+                    if (sum <= balance) {
+                        amount += sum;
+                        balance -= sum;
+                        isRun = false;
+                    } else {
+                        throw new CatchPaymentException("Недостаточно денег на балансе.");
+                    }
+                }
+            } catch (NumberFormatException | CatchPaymentException e) {
+                e.printStackTrace();
+                System.err.println("Введены неверные данные. " + e.getMessage());
+            }
+        }
     }
 
     public static String inputFromConsole(String text) {
