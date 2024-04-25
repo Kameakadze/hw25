@@ -1,14 +1,20 @@
 package payments;
 
 public class CardAcceptor implements MoneyPayment{
+    private int amount;
+
+    public CardAcceptor(int amount) {
+        this.amount = amount;
+    }
+
     @Override
     public int getAmount() {
-        return 0;
+        return amount;
     }
 
     @Override
     public void setAmount(int amount) {
-
+        this.amount = amount;
     }
 
     @Override
